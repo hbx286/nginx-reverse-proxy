@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  api-service:  # 可自行更换, 需与 ../nginx/conf/api.conf 的 {api-service} 一致
+    image: {image-name}
+    expose:
+      - {expose-port} # 可自行更换, 与 ../nginx/conf/dashboard.conf 的 {expose-port} 一致
+    environment:
+      TEST: 'fake'
+    command: ["command", "args"]
+    restart: always
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    external: true

@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:stable
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./conf:/etc/nginx/conf.d    # 配置文件挂载
+      - ./certs:/etc/nginx/certs    # SSL 证书挂载, 如无, 请注释此行
+    networks:
+      - webnet
+    
+  api-service:  # 可自行更换, 需与 ../nginx/conf/api.conf 的 {api-service} 一致
+    image: {image-name}
+    expose:
+      - {expose-port} # 可自行更换, 与 ../nginx/conf/dashboard.conf 的 {expose-port} 一致
+    environment:
+      TEST: 'fake'
+    command: ["command", "args"]
+    restart: always
+    networks:
+      - webnet
+  
+  dashboard-service: # 可自行更换, 需与 ../nginx/conf/dashboard.conf 的 {dashboard-service} 一致
+    image: nginx:stable
+    restart: always
+    expose:
+      - 80 # 可自行更换, 此处选择的是nginx镜像, 仅暴露80端口, 与 ../nginx/conf/dashboard.conf 的 {expose-port} 一致
+    # volumes:
+    #   - ./frontend:/usr/share/nginx/html  # 挂载静态文件到容器
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge

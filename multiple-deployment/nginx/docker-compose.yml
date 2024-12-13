@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:stable
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./conf:/etc/nginx/conf.d    # 配置文件挂载
+      - ./certs:/etc/nginx/certs    # SSL 证书挂载, 如无, 请注释此行
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    external: true

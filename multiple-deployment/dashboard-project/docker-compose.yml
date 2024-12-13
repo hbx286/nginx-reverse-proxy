@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  dashboard-service: # 可自行更换, 需与 ../nginx/conf/dashboard.conf 的 {dashboard-service} 一致
+    image: nginx:stable
+    restart: always
+    expose:
+      - 80 # 可自行更换, 此处选择的是nginx镜像, 仅暴露80端口, 与 ../nginx/conf/dashboard.conf 的 {expose-port} 一致
+    # volumes:
+    #   - ./frontend:/usr/share/nginx/html  # 挂载静态文件到容器
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    external: true
