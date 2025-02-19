@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   api-service:  # 可自行更换, 需与 ../nginx/conf/api.conf 的 {api-service} 一致
     image: {image-name}
